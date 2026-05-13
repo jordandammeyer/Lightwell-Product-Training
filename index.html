@@ -1,0 +1,396 @@
+<style>
+  :root {
+    --lw-primary: #1e3a5f;
+    --lw-primary-light: #2c5282;
+    --lw-primary-soft: #e8eff6;
+    --lw-gold: #d4a437;
+    --lw-gold-soft: #f5ebd1;
+    --lw-success: #2f7a3f;
+    --lw-success-soft: #e3f0e5;
+    --lw-error: #b54343;
+    --lw-error-soft: #f5e3e3;
+    --lw-card: #ffffff;
+    --lw-border: rgba(30, 58, 95, 0.14);
+    --lw-border-strong: rgba(30, 58, 95, 0.28);
+    --lw-text: #1a1a1a;
+    --lw-text-muted: #5a5a5a;
+    --lw-text-soft: #7a7a7a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --lw-primary: #7eb0db;
+      --lw-primary-light: #9ec5e5;
+      --lw-primary-soft: rgba(126, 176, 219, 0.12);
+      --lw-gold: #e8b94a;
+      --lw-gold-soft: rgba(232, 185, 74, 0.14);
+      --lw-success: #6fc080;
+      --lw-success-soft: rgba(111, 192, 128, 0.14);
+      --lw-error: #e07878;
+      --lw-error-soft: rgba(224, 120, 120, 0.14);
+      --lw-card: #1f2937;
+      --lw-border: rgba(255, 255, 255, 0.1);
+      --lw-border-strong: rgba(255, 255, 255, 0.2);
+      --lw-text: #f0f0f0;
+      --lw-text-muted: #b0b0b0;
+      --lw-text-soft: #8a8a8a;
+    }
+  }
+  .lw-root { font-family: var(--font-sans); color: var(--lw-text); max-width: 880px; margin: 0 auto; padding: 8px 0; }
+  .lw-header { display: flex; align-items: center; gap: 14px; padding: 18px 22px; border: 1px solid var(--lw-border); border-radius: var(--border-radius-lg); background: var(--lw-card); margin-bottom: 18px; }
+  .lw-logo { width: 42px; height: 42px; flex-shrink: 0; }
+  .lw-brand { display: flex; flex-direction: column; gap: 2px; }
+  .lw-brand-name { font-size: 17px; font-weight: 500; color: var(--lw-primary); letter-spacing: -0.01em; }
+  .lw-brand-sub { font-size: 12px; color: var(--lw-text-soft); }
+  .lw-intro { font-size: 14px; color: var(--lw-text-muted); line-height: 1.6; padding: 0 4px 14px; }
+  .lw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+  .lw-card { background: var(--lw-card); border: 1px solid var(--lw-border); border-radius: var(--border-radius-lg); padding: 18px; cursor: pointer; transition: border-color 0.15s; display: flex; flex-direction: column; gap: 8px; text-align: left; box-shadow: 0 1px 2px rgba(0,0,0,0.03); font-family: inherit; }
+  .lw-card:hover { border-color: var(--lw-border-strong); }
+  .lw-card-head { display: flex; align-items: center; gap: 10px; }
+  .lw-card-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--lw-primary-soft); color: var(--lw-primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .lw-card-icon i { font-size: 18px; }
+  .lw-card-num { font-size: 11px; color: var(--lw-gold); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
+  .lw-card-title { font-size: 15px; font-weight: 500; color: var(--lw-text); line-height: 1.35; }
+  .lw-card-desc { font-size: 13px; color: var(--lw-text-muted); line-height: 1.5; }
+  .lw-card-foot { margin-top: 6px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .lw-pill { font-size: 11px; padding: 3px 8px; border-radius: 12px; background: var(--lw-primary-soft); color: var(--lw-primary); font-weight: 500; }
+  .lw-pill.done { background: var(--lw-success-soft); color: var(--lw-success); }
+  .lw-progress-bar { height: 4px; background: var(--lw-primary-soft); border-radius: 4px; overflow: hidden; width: 100%; margin-top: 4px; }
+  .lw-progress-fill { height: 100%; background: var(--lw-primary); border-radius: 4px; transition: width 0.3s; }
+  .lw-quiz { background: var(--lw-card); border: 1px solid var(--lw-border); border-radius: var(--border-radius-lg); padding: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+  .lw-quiz-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+  .lw-quiz-title { font-size: 18px; font-weight: 500; color: var(--lw-primary); }
+  .lw-quiz-meta { font-size: 12px; color: var(--lw-text-soft); }
+  .lw-bar { height: 6px; background: var(--lw-primary-soft); border-radius: 6px; overflow: hidden; margin: 12px 0 22px; }
+  .lw-bar-fill { height: 100%; background: var(--lw-primary); transition: width 0.3s; }
+  .lw-question { font-size: 16px; line-height: 1.6; color: var(--lw-text); margin-bottom: 18px; font-weight: 500; }
+  .lw-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+  .lw-opt { padding: 14px 16px; border: 1px solid var(--lw-border); border-radius: var(--border-radius-md); background: var(--lw-card); cursor: pointer; text-align: left; font-size: 14px; line-height: 1.5; color: var(--lw-text); display: flex; gap: 12px; transition: border-color 0.15s, background 0.15s; font-family: inherit; }
+  .lw-opt:hover:not(:disabled) { border-color: var(--lw-border-strong); }
+  .lw-opt:disabled { cursor: default; }
+  .lw-opt-letter { width: 24px; height: 24px; border-radius: 50%; background: var(--lw-primary-soft); color: var(--lw-primary); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; }
+  .lw-opt.selected { border-color: var(--lw-primary); background: var(--lw-primary-soft); }
+  .lw-opt.correct { border-color: var(--lw-success); background: var(--lw-success-soft); }
+  .lw-opt.correct .lw-opt-letter { background: var(--lw-success); color: white; }
+  .lw-opt.incorrect { border-color: var(--lw-error); background: var(--lw-error-soft); }
+  .lw-opt.incorrect .lw-opt-letter { background: var(--lw-error); color: white; }
+  .lw-feedback { padding: 16px 18px; border-radius: var(--border-radius-md); margin-bottom: 18px; border-left: 3px solid; font-size: 14px; line-height: 1.6; }
+  .lw-feedback.correct { background: var(--lw-success-soft); border-color: var(--lw-success); color: var(--lw-text); }
+  .lw-feedback.incorrect { background: var(--lw-error-soft); border-color: var(--lw-error); color: var(--lw-text); }
+  .lw-feedback-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-weight: 500; }
+  .lw-feedback-head.correct { color: var(--lw-success); }
+  .lw-feedback-head.incorrect { color: var(--lw-error); }
+  .lw-actions { display: flex; gap: 10px; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+  .lw-btn { padding: 10px 18px; border-radius: var(--border-radius-md); font-size: 14px; font-weight: 500; cursor: pointer; border: 1px solid; transition: background 0.15s, border-color 0.15s; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; }
+  .lw-btn-primary { background: var(--lw-primary); color: white; border-color: var(--lw-primary); }
+  .lw-btn-primary:hover { background: var(--lw-primary-light); border-color: var(--lw-primary-light); }
+  .lw-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+  .lw-btn-ghost { background: transparent; color: var(--lw-text-muted); border-color: var(--lw-border); }
+  .lw-btn-ghost:hover { border-color: var(--lw-border-strong); color: var(--lw-text); }
+  .lw-results { text-align: center; padding: 12px 0; }
+  .lw-score-ring { width: 120px; height: 120px; margin: 0 auto 18px; position: relative; }
+  .lw-score-num { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .lw-score-pct { font-size: 28px; font-weight: 500; color: var(--lw-primary); line-height: 1; }
+  .lw-score-lbl { font-size: 11px; color: var(--lw-text-soft); margin-top: 2px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .lw-results-title { font-size: 20px; font-weight: 500; color: var(--lw-text); margin-bottom: 6px; }
+  .lw-results-sub { font-size: 14px; color: var(--lw-text-muted); margin-bottom: 22px; line-height: 1.6; }
+  .lw-review { text-align: left; background: var(--lw-primary-soft); border-radius: var(--border-radius-md); padding: 16px 18px; margin-bottom: 20px; }
+  .lw-review-title { font-size: 13px; font-weight: 500; color: var(--lw-primary); margin-bottom: 8px; letter-spacing: 0.02em; }
+  .lw-review-list { font-size: 13px; color: var(--lw-text-muted); line-height: 1.7; }
+  .lw-review-list li { margin-bottom: 4px; }
+</style>
+
+<div class="lw-root">
+  <div class="lw-header">
+    <svg class="lw-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M 30 0 L 70 0 L 70 15 Q 70 30 85 30 L 100 30 L 100 70 L 85 70 Q 70 70 70 85 L 70 100 L 30 100 L 30 85 Q 30 70 15 70 L 0 70 L 0 30 L 15 30 Q 30 30 30 15 Z" fill="#d4a437"/>
+    </svg>
+    <div class="lw-brand">
+      <span class="lw-brand-name">Lightwell Insurance Advisors</span>
+      <span class="lw-brand-sub">Trainee Quiz Series · Brotherhood Mutual MinistryFirst</span>
+    </div>
+  </div>
+  <div id="lw-view"></div>
+</div>
+
+<script>
+const QUIZZES = [
+  {
+    id: 1, icon: "ti-book-2",
+    title: "Insurance fundamentals",
+    desc: "Risk transfer, premiums, deductibles, and how a policy is put together.",
+    questions: [
+      { q: "Insurance, at its core, is best described as:", opts: ["A guaranteed return on the money you pay in premiums", "The transfer of financial risk from one party to another", "A savings account that pays out when something goes wrong", "A legal requirement designed to fund the government"], correct: 1, explain: "Insurance transfers the financial risk of an unpredictable event from the insured (a ministry, in our world) to the insurance company, in exchange for a premium. It's not a savings vehicle or an investment, and most coverages aren't legally required, though some (like workers' comp and auto liability) are."},
+      { q: "The 'law of large numbers' is the mathematical principle that lets insurance work. What does it actually mean?", opts: ["The bigger the insurance company, the lower your premium", "The more policies an insurer writes, the more predictable claim costs become in the aggregate", "The law that requires insurers to maintain large financial reserves", "The principle that large losses are always paid before small ones"], correct: 1, explain: "When an insurer covers thousands of similar risks (Brotherhood Mutual covers 67,000+ Christian ministries), the actual claim costs across the group become statistically predictable, even though any individual loss is unpredictable. That's what lets the insurer charge premiums that, in aggregate, cover claims plus expenses plus a margin."},
+      { q: "A premium is:", opts: ["The deductible you pay when filing a claim", "The amount the insurer pays for a covered loss", "The known, set cost the insured pays for insurance coverage", "A bonus the insurer pays for loss-free years"], correct: 2, explain: "A premium is the known, set cost you pay to the insurer in exchange for them accepting your risk. The deductible is what you pay first before insurance kicks in on a claim. The loss-free benefit is a deductible reduction, not a premium bonus."},
+      { q: "A ministry has a $2,500 property deductible and suffers a $10,000 covered loss. How does the payment work?", opts: ["The client pays $0; Brotherhood Mutual pays $10,000", "The client pays $2,500; Brotherhood Mutual pays $7,500", "The client pays $7,500; Brotherhood Mutual pays $2,500", "The client and Brotherhood Mutual each pay $5,000"], correct: 1, explain: "The deductible is the portion of the loss the insured pays before the insurance company pays anything. With a $2,500 deductible on a $10,000 loss, the client absorbs the first $2,500 and the carrier pays the remaining $7,500 (assuming the loss is otherwise fully covered)."},
+      { q: "What information does the declaration page of a policy tell you?", opts: ["The full text of every coverage form in the policy", "The named insured, policy term, coverage types, and limits", "A list of exclusions that apply to all coverages", "The legal definitions of terms used in the policy"], correct: 1, explain: "The 'dec page' declares the key facts: who the insured is, when coverage runs, and what coverages and limits apply. The detailed coverage language, definitions, and exclusions live in the coverage forms and endorsements that follow. Always review dec pages against the proposal to make sure the coverages match."},
+      { q: "An endorsement is:", opts: ["A separate insurance policy from another carrier", "The insurer's recommendation that you buy more coverage", "An addition to a policy that changes original provisions or adds coverage", "A formal complaint filed against an insured"], correct: 2, explain: "Endorsements are how policies get customized. They can add new coverage (like Religious Freedom Protection), change limits, or modify policy provisions. A MinistryFirst policy is built from a base form plus a stack of endorsements tailored to the ministry's specific operations."},
+      { q: "Why do insurance policies include exclusions?", opts: ["To trick policyholders out of coverage they paid for", "To clarify what isn't covered under a specific form, often because it's covered (or not covered) by another form", "To increase premium revenue", "Because state regulators require every policy to exclude certain things"], correct: 1, explain: "Exclusions remove ambiguity about what a particular form covers. Importantly, something excluded on one form may be picked up by another form in the same package. For example, athletic injuries are excluded from basic medical payments coverage but picked up by the athletic medical endorsement. Always read the whole package."},
+      { q: "Brotherhood Mutual's standard policy territory means coverage typically applies when which of the following happens in the U.S., its territories, Canada, or Puerto Rico?", opts: ["The bodily injury or property damage occurs", "The suit or claim is filed against the insured", "The insured's vehicle is registered", "The ministry's headquarters are located"], correct: 1, explain: "Common misconception: policy territory is NOT primarily about where the injury or damage happens — it's about where the lawsuit is brought. Brotherhood Mutual's standard MinistryFirst territory covers occurrences happening worldwide as long as the suit is filed in the U.S., its territories, Canada, or Puerto Rico. The Worldwide Liability and Medical Extension expands territory to include suits filed anywhere in the world. This matters most for ministries with foreign mission activity, where a participant injured abroad might file suit in their home country rather than the U.S."}
+    ]
+  },
+  {
+    id: 2, icon: "ti-scale",
+    title: "Liability & tort basics",
+    desc: "Negligence, legal duty, claims-made vs occurrence, limits, and how lawsuits work.",
+    questions: [
+      { q: "In the U.S. legal system, a ministry can generally only be held legally liable for someone's injury if:", opts: ["The injury happened on the ministry's property, period", "The ministry was negligent or engaged in intentional wrongdoing that caused the injury", "The injured person says they were harmed", "The ministry has insurance coverage that could pay"], correct: 1, explain: "An injury on your premises does not automatically mean legal liability. Liability typically requires negligence (or intentional wrongdoing) — the ministry's actions must have been unreasonable under the circumstances and must have caused the injury. That said, even a not-at-fault ministry may still need a lawyer to defend, which is why liability insurance covers both defense and damages."},
+      { q: "The four classic elements of negligence are:", opts: ["Intent, motive, opportunity, damages", "Duty, breach of duty, causation, damages", "Negligence, gross negligence, recklessness, intent", "Premises, products, completed works, contractual"], correct: 1, explain: "To prove negligence, a plaintiff generally must establish: (1) a duty of care owed by the defendant, (2) a breach of that duty, (3) causation linking the breach to the injury, and (4) actual damages. Liability coverage responds when these elements are alleged against the ministry."},
+      { q: "Brotherhood Mutual draws a key distinction between 'legal duty' and 'moral duty.' What's the difference?", opts: ["Legal duty applies to staff; moral duty applies to volunteers", "Insurance covers what you're legally required to pay; moral duty is what a ministry may choose to do for its people regardless of fault", "Legal duty applies in court; moral duty applies in arbitration", "There's no real difference; they mean the same thing"], correct: 1, explain: "Insurance only insures legal duty: what a court would require you to pay. But ministries often want to care for those hurt on their property even when not at fault. That's why Brotherhood Mutual offers tools like medical payments coverage, accident insurance, and wage loss reimbursement that pay without regard to negligence — they help meet moral duty even when there's no legal duty."},
+      { q: "A liability policy has a $1M per-occurrence limit and a $3M aggregate limit. During the year, the ministry has three separate covered claims, each costing $1.2M. What happens?", opts: ["The insurer pays $1.2M for each claim ($3.6M total)", "The insurer pays $1M for each of the three claims ($3M total)", "The insurer pays $1M, then nothing for the rest", "The insurer pays $3M for the first claim, then nothing"], correct: 1, explain: "Each occurrence is capped at the $1M per-occurrence limit, so the most the insurer pays on any one claim is $1M. After three $1M payments, the $3M aggregate is exhausted and there's no more coverage available for the policy period. This is exactly why we encourage clients to consider an umbrella or excess policy."},
+      { q: "What's the difference between 'claims-made' and 'occurrence-based' liability forms?", opts: ["Claims-made covers events during the policy period regardless of when the claim comes in; occurrence covers claims filed during the policy period", "Occurrence covers events during the policy period regardless of when the claim is later filed; claims-made requires both event and claim to fall within the policy period (or tail)", "They're the same thing with different names", "Claims-made is only for property; occurrence is only for liability"], correct: 1, explain: "Occurrence-based is more 'set it and forget it' — if the event happened during the policy period, you're covered whenever the claim eventually comes in. Claims-made requires both the event and the claim to fall within the policy period (or extended reporting 'tail' period). Tail coverage can get expensive, so this distinction matters at renewal time."},
+      { q: "Defense costs covered 'outside the limits' means:", opts: ["The insurer won't defend the claim", "Defense costs don't erode the limit available to pay damages", "The insured pays defense out of pocket", "Defense applies only to claims filed in other states"], correct: 1, explain: "When defense is outside the limits, legal expenses are paid in addition to the policy limits, so the full limit stays available to pay any settlement or judgment. When defense is 'inside the limits,' every dollar spent on legal expenses reduces what's left for damages. This is a coverage feature worth highlighting on every proposal."},
+      { q: "The most common general liability limits a ministry purchases on a MinistryFirst policy are:", opts: ["$100,000 per occurrence / $300,000 aggregate", "$500,000 per occurrence / $1M aggregate", "$1M per occurrence / $3M aggregate", "$5M per occurrence / $10M aggregate"], correct: 2, explain: "$1M/$3M is the typical starting point on a Brotherhood Mutual general liability policy. Higher effective limits are typically reached through an umbrella or excess policy that sits on top — increasingly important given the trend toward larger jury awards."},
+      { q: "A church rents space from a community center. A kitchen fire damages the building. Which coverage responds?", opts: ["The church's property coverage on the MinistryFirst policy", "Fire Legal Liability — coverage for damage to premises the insured rents", "Workers' compensation", "Auto liability"], correct: 1, explain: "Fire Legal Liability covers a ministry's legal responsibility for fire damage to premises it rents from someone else. The base limit is $300,000 unless increased. This is especially important for ministries that don't own their facilities and meet in rented schools, community centers, or storefronts."},
+      { q: "Brotherhood Mutual's Religious Freedom Protection coverage responds to:", opts: ["Property damage caused by religious symbols falling on a parishioner", "Emotional injury claims arising from religious communications, religious activities, belief-based decisions, and alleged discriminatory acts", "Lawsuits filed against the federal government", "Theft of religious artifacts from the sanctuary"], correct: 1, explain: "Religious Freedom Protection shields a ministry from the financial impact of emotional injury claims tied to its religious communications, religious activities, belief-based decisions, and alleged discriminatory acts. It also includes defense costs for legal challenges to tax-exempt status. A flagship Brotherhood Mutual coverage worth highlighting on every faith-based account."}
+    ]
+  },
+  {
+    id: 3, icon: "ti-building-church",
+    title: "Property coverages",
+    desc: "Peril forms, valuation, coinsurance, ordinance or law, and optional endorsements.",
+    questions: [
+      { q: "A ministry chooses the 'basic' peril form for property coverage. Which of these would NOT be covered?", opts: ["Fire damage to the sanctuary", "Windstorm damage to the roof", "Damage from a sprinkler leak in the fellowship hall", "Vehicle damage from a delivery truck backing into the building"], correct: 2, explain: "Sprinkler leakage is included on 'broad' and 'special' peril forms but not the basic form. Basic covers a defined short list (fire, wind, hail, vehicle damage, etc.). Broad adds sprinkler leakage, falling objects, glass breakage, weight of ice/sleet/snow, and water damage from systems and appliances. Special is the broadest — all direct physical loss unless specifically excluded."},
+      { q: "A church has six buildings on one campus and occasionally moves equipment between them. The agent recommends 'blanket' (combined) property coverage instead of scheduled. Why?", opts: ["Blanket coverage is always cheaper", "Blanket coverage applies a single limit across all buildings or personal property, which is useful when contents move between buildings", "Blanket coverage is the only option for multi-building accounts", "Scheduled coverage is not allowed in most states"], correct: 1, explain: "Blanket coverage applies one set of limits to multiple buildings or personal property, which fits ministries that shift contents between locations. Scheduled coverage assigns separate limits to each building. Blanket is typically more expensive because a loss can result in a larger payout, but it offers flexibility scheduled can't."},
+      { q: "What's the difference between actual cash value (ACV) and replacement cost?", opts: ["ACV pays the full cost to rebuild without depreciation; replacement cost depreciates", "Replacement cost pays the cost to rebuild without depreciation; ACV deducts for depreciation", "They're the same thing", "ACV applies to buildings; replacement cost applies to contents only"], correct: 1, explain: "Replacement cost pays what it takes to repair or replace with similar kind and quality, no depreciation deduction. ACV pays the depreciated value at the time of loss. For older buildings, the gap can be significant. Brotherhood Mutual also offers 'broadened valuation,' which pays up to 125% of the scheduled limit on a building."},
+      { q: "A coinsurance clause exists to:", opts: ["Force the insured to share the loss with the insurer on every claim", "Ensure buildings and personal property are insured at their proper value, and penalize underinsurance", "Coordinate coverage when two insurance companies cover the same property", "Require the insured to carry a second policy"], correct: 1, explain: "Coinsurance is a property provision that limits recovery when property is underinsured. It motivates clients to insure at proper value. If properly valued, the coinsurance clause can be waived. This is why an industrial appraisal (which measures rebuild cost) matters more than a real estate appraisal (which measures market value)."},
+      { q: "A 1950s church suffers a fire causing major damage. Local code now requires the undamaged portion to be torn down and rebuilt to current standards. The standard property policy may only pay for the direct fire damage. Which coverage fills the gap?", opts: ["Equipment Breakdown", "Ordinance or Law Enforcement Coverage", "Loss of Earnings, Donations, and Extra Expense", "Automatic Increase Endorsement"], correct: 1, explain: "Ordinance or Law Enforcement Coverage responds to indirect losses created by building codes: demolition of undamaged portions, debris removal, and the increased cost of construction to meet current standards. Critical for older church buildings — without it, a covered fire can still leave a ministry with a major out-of-pocket gap."},
+      { q: "A boiler explodes in a church basement, causing $80,000 in mechanical and electrical damage. Which coverage responds?", opts: ["Basic property — boiler explosions are always covered", "Systems and Equipment Breakdown Coverage (optional endorsement)", "Workers' compensation", "Ordinance or Law"], correct: 1, explain: "Standard property forms generally exclude mechanical/electrical breakdown and steam boiler explosions. Brotherhood Mutual's Systems and Equipment Breakdown endorsement picks up boilers, electrical systems, telecommunications equipment, computers, HVAC, and resulting damage (including spoiled perishables and mold cleanup)."},
+      { q: "A ministry's policy has the Loss Free Deductible Reduction Endorsement. The client just completed four years with no claims. They file a claim with a $5,000 deductible. How much of the deductible is reduced?", opts: ["0% — the endorsement only applies after 10 years", "25%, up to $2,500", "50%, up to $2,500", "100%, up to $2,500"], correct: 2, explain: "The Loss Free Deductible Reduction Endorsement is automatically included on every Brotherhood Mutual policy. At 2+ years loss-free, 25% reduction (up to $2,500). At 4+ years, 50% (up to $2,500). At 6+ years, 100% (up to $2,500). On a $5,000 deductible at 4+ years loss-free, the client saves $2,500."},
+      { q: "The Automatic Increase Endorsement does what?", opts: ["Increases the policy limit by 10% every time a claim is filed", "Automatically adjusts property values each quarter based on a selected inflation percentage", "Increases the premium each year regardless of inflation", "Adds new buildings to the policy automatically"], correct: 1, explain: "Construction costs creep up over a policy term. Automatic Increase adjusts property values each quarter based on an inflation percentage the client and agent select, protecting against being underinsured at the time of loss. Worth recommending — it's optional and easy to overlook."},
+      { q: "Ministry Personnel Dishonesty Coverage protects against losses caused by:", opts: ["A volunteer accidentally damaging the building", "Dishonest acts of ministry employees and others authorized to handle ministry funds or property", "A board member's poor financial decisions", "Cyber theft by external hackers"], correct: 1, explain: "This coverage pays for losses of money, securities, and other covered property caused by dishonest acts of employees and people authorized to handle ministry assets. It can include protection for employee benefit plans. Cyber theft by outside hackers typically requires separate cyber or property coverages; non-dishonest board mismanagement falls under D&O."}
+    ]
+  },
+  {
+    id: 4, icon: "ti-shield-check",
+    title: "General & optional liability",
+    desc: "Insureds, damage types, contractual, Sexual Acts, RFP, counseling, EPLI, D&O, umbrella.",
+    questions: [
+      { q: "Brotherhood Mutual's Sexual Acts and Abusive Acts Liability Coverage will continue to defend an alleged perpetrator until which event happens?", opts: ["The lawsuit is filed", "The first court hearing concludes", "A civil verdict against them, criminal conviction, guilty/no-contest plea, admission, or clear and convincing evidence implicates them", "Coverage continues regardless of any outcome"], correct: 2, explain: "Brotherhood Mutual continues to defend the alleged perpetrator until one of those triggering events occurs. Coverage never extends to those who actually engaged in misconduct, nor to known perpetrators employed or appointed to ministry positions. Coverage for the insured organization continues for covered claims. The endorsement also includes up to $5,000 per person for outside counseling expenses, regardless of legal liability."},
+      { q: "Under a typical Brotherhood Mutual MinistryFirst general liability policy, which of these would generally qualify as an 'insured'?", opts: ["Only the named insured (the ministry organization itself)", "The ministry, its trustees, directors, officers, employees, and volunteer workers while acting in their ministry capacity", "Only paid employees of the ministry", "Any person who attends a ministry event"], correct: 1, explain: "A MinistryFirst policy extends 'insured' status to the ministry plus its trustees, directors, officers, employees, and volunteer workers — but only while they're acting within the scope of their ministry roles. A volunteer driving for ministry purposes is an insured for that activity; the same volunteer commuting to their day job is not. Members of the congregation generally are NOT insureds — they're third parties the policy may pay BI/PD to, but the policy doesn't defend them. Knowing who is and isn't an insured determines who gets a defense and who gets indemnified."},
+      { q: "Insurance policies distinguish between several categories of damages. Which of these is the best definition of 'personal injury' in insurance terminology?", opts: ["Physical injury, sickness, or disease — the same as bodily injury", "Offenses like defamation, libel, slander, invasion of privacy, false arrest, or wrongful eviction", "Mental or emotional distress not resulting from physical injury", "Financial loss caused by an error in business operations"], correct: 1, explain: "Insurance language treats these as distinct categories: Bodily injury = physical injury, sickness, or disease. Property damage = physical injury to or loss of use of tangible property. Personal injury = a specific list of offenses (defamation, libel, slander, invasion of privacy, false arrest, wrongful eviction). Emotional injury = mental or emotional distress not resulting from physical injury. Financial damage = economic loss. The same incident can trigger multiple categories, and different coverage forms respond to different categories. Identifying what's actually alleged is step one in figuring out which coverage applies."},
+      { q: "A ministry signs a facility-rental agreement that contains a hold-harmless clause requiring it to indemnify the venue owner for injuries caused by the ministry's negligence. The ministry has Additional Incidental Contractual Liability Coverage. Does the coverage respond?", opts: ["No — insurance never responds to contractual obligations", "Yes — Incidental Contractual covers tort liability assumed under a contract (liability the ministry would have owed anyway because of its own negligence)", "Yes — it covers any and every contractual obligation the ministry assumes", "Only if the venue owner is also a Brotherhood Mutual policyholder"], correct: 1, explain: "Additional Incidental Contractual Liability extends general liability to bodily injury or property damage the ministry assumes under a contract — but only for TORT liability, meaning damages the ministry would have owed anyway through its own negligence. It does NOT cover broader indemnity obligations where the ministry agrees to be responsible for the OTHER party's negligence. That's why we read facility-use, vendor, and similar agreements carefully — broad indemnities create uninsurable contractual obligations the ministry would have to pay out of pocket."},
+      { q: "A pastor counsels a congregant without charging a fee. The congregant later sues, alleging emotional injury from the counseling. Which coverage responds?", opts: ["Religious Freedom Protection", "Broad Form Ministry Counseling Liability Coverage", "Sexual Acts and Abusive Acts Liability", "Directors and Officers Liability"], correct: 1, explain: "Broad Form Ministry Counseling Liability pays defense costs and damages for bodily, emotional, or personal injury from counseling acts by pastors, trained lay counselors, leaders, employees, and volunteers. It also reimburses up to $5,000 per counselee for outside counseling. If the ministry charges a professional service fee, the Fee-Based Counseling Extension is needed instead."},
+      { q: "A ministry's board fires an employee, who then sues for wrongful termination, alleging discrimination. Which coverage best responds?", opts: ["General Liability — Bodily Injury and Property Damage", "Religious Freedom Protection", "Employment Practices Liability Coverage (EPLI)", "Workers' Compensation"], correct: 2, explain: "EPLI is designed for employment-related claims: discrimination, sexual harassment, wrongful termination, breach of employment contract, and similar wrongful employment acts. Religious Freedom Protection may also be relevant if belief-based decisions are at issue, but EPLI is the direct fit for wrongful termination."},
+      { q: "Wage and Hour Claims Liability Coverage requires what other coverage to be in place?", opts: ["Workers' Compensation", "Employment Practices Liability Coverage (EPLI)", "Directors and Officers Liability", "General Liability"], correct: 1, explain: "Wage and Hour coverage is only available if the ministry has EPLI in place. It protects against claims tied to unpaid wages, employee misclassification, unpaid overtime, and unintentional violations of compensation laws. Wage-and-hour exposure has grown significantly — worth flagging for every ministry with paid staff."},
+      { q: "A church camp serves food at its summer program. A camper gets food poisoning and sues. Which coverage responds?", opts: ["Products/Completed Works (excluded for food)", "Food Preparation Liability Coverage", "Religious Freedom Protection", "The ministry has no coverage for this"], correct: 1, explain: "Food Preparation Liability pays for bodily injury claims caused by eating food the ministry distributed for its religious or nonprofit activities. Short-term fundraising events are included automatically; ongoing food operations that generate revenue must be scheduled on the policy and may carry a separate premium charge."},
+      { q: "An umbrella or excess liability policy automatically sits on top of which three primary policies?", opts: ["Property, auto, and workers' comp", "General liability, vehicle liability, and employers' liability (the liability portion of workers' comp)", "Cyber, D&O, and EPLI", "Property, cyber, and auto"], correct: 1, explain: "An umbrella generally extends three primary liability coverages by default: general liability, vehicle liability, and employers' liability. Several other coverages (cyber, D&O, EPLI, Sexual Acts and Abusive Acts) are EXCLUDED from the umbrella by default — but they can often be added back for additional premium and sometimes additional underwriting questions/applications. Property losses, workers' comp statutory benefits, and most stand-alone professional liability lines are never extended by the umbrella. Typical excess limits range from $1M to $5M, with higher limits available for larger institutions."},
+      { q: "Brotherhood Mutual's Security Operations Liability Coverage provides primary coverage for volunteer security team members. Why does the primary-vs-excess distinction matter?", opts: ["Without Sec Ops, volunteer security personnel have no coverage at all", "Without Sec Ops, volunteer security personnel's coverage from the MinistryFirst policy is excess over any other available coverage; Sec Ops moves it to primary", "Excess coverage is always cheaper than primary", "Primary and excess pay the same amount, just in different orders"], correct: 1, explain: "Without the Security Operations Liability endorsement, volunteer security team members still have coverage under the MinistryFirst general liability form — but it's excess over any other coverage they might have (personal homeowners, umbrella, etc.). The Sec Ops endorsement makes the ministry's coverage primary, so it responds first regardless of what other policies may exist. That matters because relying on a volunteer's own homeowner's policy to defend a ministry-related security claim is unreliable — coverage may be denied, limits may be inadequate, and the volunteer may not want their personal policy hit. Sec Ops also adds broadened medical, wage loss, and counseling benefits for emergency response situations."},
+      { q: "Directors and Officers (D&O) Liability covers what kind of claims?", opts: ["Bodily injury caused by directors operating ministry vehicles", "Financial damage claims against ministry leaders for wrongful acts committed as part of their leadership activities", "Workers' compensation claims by directors", "Property damage to leaders' personal homes"], correct: 1, explain: "D&O covers financial damage claims against the organization's leaders (and their spouses) for wrongful acts in their leadership capacity — decisions, governance acts, and authorized implementation activity. Bodily injury and property damage from auto accidents fall under auto liability, not D&O."},
+      { q: "Membership Emotional Injury Liability Coverage responds to which type of claim?", opts: ["Emotional injury claims from worship service content", "Emotional injury claims arising from policies or practices regarding membership attendance, disqualification, common church discipline, or removal", "Claims of property damage during membership meetings", "Claims of pastoral counseling negligence"], correct: 1, explain: "Uniquely ministry-focused. Membership-related decisions (attendance enforcement, disqualification, discipline, removal) can trigger lawsuits for emotional harm. This endorsement responds to defense costs and damages from those specific situations — a coverage few non-religious carriers offer."}
+    ]
+  },
+  {
+    id: 5, icon: "ti-stethoscope",
+    title: "Workers' comp, med pay & accident",
+    desc: "Statutory benefits, employers' liability, Pay-Go, primary/excess med pay, separate accident plans.",
+    questions: [
+      { q: "Which of the following best describes who needs workers' compensation in a church setting?", opts: ["Only non-clergy employees", "Only full-time W-2 employees", "In most states, anyone receiving wages from the ministry — including clergy, and often including workers paid on a 1099 whose work characteristics are employee-like", "Volunteers only"], correct: 2, explain: "Many ministry leaders mistakenly think workers' comp is optional for clergy, or that 'we have no employees' because they only pay 1099 contractors. Neither is reliably true. In most states, workers' comp obligations attach to anyone receiving wages — including clergy, and including workers a church calls a contractor if their actual work characteristics look like employment (control over hours, exclusivity, who provides tools, etc.). States can fine employers who fail to carry it. Brotherhood Mutual recommends all ministry employers secure workers' comp regardless of how the ministry classifies workers."},
+      { q: "Employers' Liability coverage exists because workers' comp alone doesn't cover every employment-related injury claim. Which scenario would Employers' Liability respond to?", opts: ["A direct workers' comp medical bill for an employee's broken arm", "A consequential damages lawsuit by the spouse of an injured employee", "A workers' comp settlement", "A premium audit dispute"], correct: 1, explain: "Workers' comp generally covers the statutory medical, disability, rehab, and death benefits for the injured employee. Employers' Liability picks up things like spousal consequential damages or claims by an employee in a capacity other than as employee. The umbrella can extend over Employers' Liability — a key piece of the catastrophic protection picture."},
+      { q: "What is a workers' comp 'premium audit'?", opts: ["An IRS review of the ministry's payroll taxes", "A post-policy inspection of the insured's payroll records, used to calculate the final premium based on actual payroll", "A pre-policy underwriting review", "A claim investigation"], correct: 1, explain: "Workers' comp premium is initially based on estimated payroll. After the policy period, the carrier audits actual payroll. Depending on whether payroll was higher or lower than estimated, the insured may owe additional premium or get a refund. Brotherhood Mutual's Pay-Go service eliminates the audit surprise by calculating premium from real-time payroll data."},
+      { q: "Brotherhood Mutual's Pay-Go workers' comp service is designed to:", opts: ["Replace workers' comp coverage entirely", "Link payroll service and workers' comp coverage, calculating premium from real-time payroll data instead of estimates", "Pay claims faster", "Eliminate the need for workers' comp on small ministries"], correct: 1, explain: "Pay-Go is a free service for Brotherhood Mutual workers' comp customers who also use Brotherhood Works for payroll. By calculating premium from actual payroll in real time, it eliminates the lump-sum surprises of audit adjustments. Helpful for ministries that don't want to manage cash flow around an annual audit."},
+      { q: "A visitor trips and breaks an ankle at a church event. Brotherhood Mutual's general liability medical payments coverage is structured as:", opts: ["Fully primary — pays before any other insurance", "Fully excess — pays only after other insurance pays first", "First $1,000 primary, remainder of the limit excess to other coverage", "Pays nothing without a determination of fault"], correct: 2, explain: "Brotherhood Mutual structures GL medical payments as part primary, part excess: the first $1,000 is primary (pays regardless of other coverage), and the rest is excess (pays after the injured person's health insurance, etc.). This minimizes out-of-pocket deductibles and copays for the injured visitor while controlling cost. No deductible or coinsurance applies, and payment is made regardless of fault."},
+      { q: "A student is injured during a school-sponsored basketball game. The school has standard medical payments coverage but no athletic medical endorsement. Does the basic medical payments coverage respond?", opts: ["Yes — all injuries on premises are covered", "No — athletic activities are excluded from basic medical payments coverage", "Yes, but only at 50%", "Only if the student was a starter"], correct: 1, explain: "Athletic activities are excluded from basic medical payments coverage because they're higher-frequency exposures. The Athletic Medical endorsement (or separate accident insurance) is the right fit. Always ask schools, colleges, and camps about their athletic exposures during renewal — easy to miss this gap."},
+      { q: "A ministry buys separate accident insurance for its day care program. What's the main advantage over relying only on general liability medical payments?", opts: ["Lower premium in all cases", "Frequent claims paid under a separate accident policy don't impact the GL loss ratio, and the policy can be customized to specific groups", "Accident insurance always pays more per claim than medical payments", "Accident insurance covers fault-based claims; medical payments doesn't"], correct: 1, explain: "A separate accident policy isolates frequency claims (which schools, day cares, and camps see often) from the main MinistryFirst loss history, helping protect the loss ratio. The ministry can customize covered groups: day care participants, students, athletes, volunteers, camp staff. Both pay without regard to fault. Note: higher per-person limits ARE available on separate accident policies than on standard GL medical payments, so the 'pays more per claim' option isn't entirely wrong — higher limits can be purchased even if they don't ultimately end up paying more on a given claim. But the primary reason we recommend the separate approach is loss ratio protection and group customization."},
+      { q: "A ministry employee is injured while driving a church van on a delivery. Which policy is the primary coverage for their injury?", opts: ["Auto medical payments", "The employee's personal health insurance", "Workers' compensation", "The general liability policy"], correct: 2, explain: "Employees injured while in the course and scope of employment — including in a ministry vehicle — generally fall under workers' compensation. Auto medical payments typically protects non-employee occupants. This is why every ministry with paid drivers needs workers' comp, not just auto coverage."}
+    ]
+  },
+  {
+    id: 6, icon: "ti-device-laptop",
+    title: "Auto & cyber",
+    desc: "Commercial auto, hired and non-owned, UM/UIM, cyber liability, and travel medical.",
+    questions: [
+      { q: "What's the typical minimum liability limit ministries purchase on a commercial auto policy?", opts: ["State minimum financial responsibility limits", "$300,000 combined single limit", "At least $500,000 per accident, combined single limit", "$5M per accident"], correct: 2, explain: "Most ministries purchase at least $500,000 combined single limit per accident on their auto policy. Note: Lightwell's agency standard is $1M CSL — vehicle accidents are often the most serious bodily injury exposure for a ministry, and the cost gap between $500K and $1M is usually modest relative to the catastrophic protection gained. Umbrella coverage commonly sits over auto liability to provide additional limits on top."},
+      { q: "A ministry-owned van hits a deer at dusk, damaging the front bumper and hood. Which physical damage coverage on the auto policy responds?", opts: ["Collision — any impact-related damage is collision", "Comprehensive — animal strikes are typically classified as comprehensive even though they involve impact", "Liability", "Workers' compensation"], correct: 1, explain: "A common trainee assumption is 'impact = collision,' but the auto policy classifies by cause, not by whether something hit something. Collision pays when your vehicle collides with another vehicle or object you're driving into. Comprehensive (sometimes called 'other than collision') covers theft, vandalism, falling objects, fire, hail, and animal strikes — yes, hitting a deer is typically comprehensive. Comp and collision usually carry separate deductibles."},
+      { q: "A church volunteer drives their own car to pick up supplies for a ministry event and causes an accident. The volunteer's personal auto policy pays first. The ministry is also sued. Which coverage on the ministry's policy responds?", opts: ["Hired Auto coverage (Symbol 8)", "Non-Owned Auto coverage (Symbol 9)", "The ministry has no coverage", "Workers' compensation"], correct: 1, explain: "Non-Owned Auto (Symbol 9) pays on an excess basis for claims of bodily injury or property damage from the use of vehicles owned by employees or volunteers when used for ministry activities. It protects the organization, not the volunteer's vehicle. Hired Auto (Symbol 8) responds when the ministry rents, leases, or borrows the vehicle."},
+      { q: "A ministry rents a 15-passenger van for a youth retreat. Which auto coverage is primary?", opts: ["Non-Owned Auto (Symbol 9)", "Hired Auto (Symbol 8) — applies to rented, leased, or borrowed vehicles", "The rental company's coverage only", "The youth pastor's personal auto policy"], correct: 1, explain: "Hired Auto (Symbol 8) provides primary liability and physical damage coverage for vehicles the ministry rents, leases, or borrows. Coverage territory includes the U.S., Canada, and Puerto Rico, with limited global coverage for short-term rentals. This avoids the high-cost rental counter waivers — worth coaching clients on."},
+      { q: "Non-Owned Vehicle Deductible Reimbursement Coverage exists to:", opts: ["Pay the ministry's auto deductible", "Reimburse a volunteer (up to $1,000) for the deductible on their own auto policy when their vehicle is damaged while being used for ministry", "Eliminate all deductibles on rental vehicles", "Pay rental car loss-of-use charges"], correct: 1, explain: "When a volunteer lends their personal vehicle for ministry use and it gets damaged, the volunteer's personal auto policy pays first — including their personal deductible. This Brotherhood Mutual coverage reimburses that deductible up to $1,000, so a generous volunteer isn't out of pocket. A relationship-protecting coverage worth recommending."},
+      { q: "Brotherhood Mutual's Broad Scope Cyber Liability endorsement primarily covers which of the following?", opts: ["Liability claims against the ministry arising from cyber breaches, unauthorized computer use, e-commerce errors, data breach errors, and IT contractor mistakes", "Physical loss of the ministry's computer hardware caused by a virus or hacking event", "Theft of ministry funds via coerced electronic transfer", "Business interruption from a ransomware attack"], correct: 0, explain: "Despite how some marketing summaries describe it, the Broad Scope Cyber Liability form is fundamentally a LIABILITY coverage — it pays for the ministry's liability to others arising from cyber events. Physical loss of the ministry's own computer hardware (B) is a first-party property concern, not a cyber liability concern, and requires specific property endorsements (which may have their own limitations or may not be available). Coercion/funds-transfer theft (C) typically requires separate Ministry Personnel Dishonesty or specific theft endorsements — and some carriers won't write those at all. Business interruption from a cyber event (D) is also generally addressed via property forms, not the cyber liability form. The lesson: don't rely on a coverage name to tell you what it does — read the form, and confirm with underwriting before promising coverage to a client."},
+      { q: "A ministry's online retail store accounts for about 30% of its revenue. Which cyber coverage extension may be appropriate?", opts: ["Basic medical payments", "Electronic Commerce Enterprise Cyber Liability Extension", "D&O", "Workers' Comp"], correct: 1, explain: "The E-commerce Enterprise Cyber Liability Extension is designed for ministries whose retail e-commerce activities account for at least 20% of revenue, OR who devote 20%+ of budget or staff/volunteer time to e-commerce. Important Brotherhood Mutual nuance that trips up many agents: electronic giving (online tithes and donations) does NOT count as e-commerce for this purpose, even though it's processed online. The extension is about retail commerce — selling goods or services, vendor transactions — not about donor giving platforms. Confirm what counts before recommending the extension."},
+      { q: "A youth pastor flies to a state conference and gets sick mid-trip. The ministry uses Faith Ventures travel medical. What does Faith Ventures NOT do?", opts: ["Pay for accident medical and illness medical expenses", "Provide 24/7 travel assistance, emergency evacuation, and repatriation", "Replace the ministry's commercial auto policy", "Pay for loss of baggage and trip delay"], correct: 2, explain: "Faith Ventures is a travel medical insurance product, not auto insurance. It covers accident and illness medical, emergency evacuation, repatriation of remains, baggage loss, trip delay, and 24/7 travel assistance for both foreign and domestic mission travel 100+ miles from home. The ministry's commercial auto coverage is a separate animal."}
+    ]
+  },
+  {
+    id: 7, icon: "ti-world",
+    title: "Ministry-specific coverages",
+    desc: "Church, K-12, college, camp, and mission protection — the coverages built for your book.",
+    questions: [
+      { q: "A church owns a parsonage and the senior pastor and family live there. What coverage gives them the equivalent of a renter's policy?", opts: ["Residents' Personal Property Coverage + Residents' Personal Liability Coverage", "Homeowner's coverage on the MinistryFirst policy", "The ministry's building property coverage automatically extends to the pastor's belongings", "No coverage is available"], correct: 0, explain: "When a minister and family live in a church-owned parsonage, the combination of Residents' Personal Property Coverage (for their belongings) plus Residents' Personal Liability Coverage gives them the equivalent of a renter's policy — with added features like accidental copyright infringement, civic board liability, business pursuits, and electronic communication liability. The ministry's building coverage handles the structure itself."},
+      { q: "The Clergy Accidental Death Benefit pays how much, and to whom?", opts: ["$10,000, to the church's general fund", "Up to $25,000, to a beneficiary designated by the governing board, when a full-time clergy member dies as a result of an accidental physical injury", "Up to $100,000, to the surviving spouse only", "Up to $5,000, to the church for funeral expenses"], correct: 1, explain: "This optional endorsement pays up to $25,000 to a beneficiary designated by the governing board when full-time clergy (ordained/licensed, working 36+ hours/week) die from a physical injury caused by an accident. It applies whether the clergy was in the course and scope of employment, and is paid in addition to life insurance or other benefits."},
+      { q: "Educators Liability Protection at a Christian K-12 school responds to which kind of claim?", opts: ["Workers' comp claim by a teacher with a back injury", "Auto accident in the school parking lot", "Emotional injury claim from evaluation, discipline, or graduation practices; concussive impact during school activity; lack of supervision leading to bullying", "Property damage to the gymnasium"], correct: 2, explain: "Educators' Liability is built for the unique professional exposures of educators: emotional injury from evaluation/discipline/graduation, non-sexual bullying/stalking/intimidation supervision failures, teaching and leadership activities, concussive impact during school activities, and food-related bodily injury served by the school. Independent contractors like adjunct professors and curriculum developers can also be covered via extension."},
+      { q: "A camp has horseback riding but doesn't own the horses — a contracted vendor brings them in. Which coverage responds if a camper is injured by one of the horses?", opts: ["Camp Practices Emotional Injury Coverage", "Non-Owned Saddle Animal & Livestock Liability Coverage", "Watercraft Liability", "Infestation Liability"], correct: 1, explain: "Non-Owned Saddle Animal & Livestock Liability pays for bodily injury and property damage caused by a saddle animal or livestock not owned or housed by the camp. A common camp exposure — outsourced trail rides, petting zoos, etc. — that's easy to miss without intentional placement."},
+      { q: "A summer camp has a major bedbug outbreak. Some campers carry them home, and the camp now faces claims from parents. Which coverage responds?", opts: ["Property — Equipment Breakdown", "Infestation Liability Coverage", "Workers' compensation", "Religious Freedom Protection"], correct: 1, explain: "Infestation Liability pays to remove pests (bedbugs, lice, fleas, ticks, mites, etc.) from others and their property when parasites spread from the camp to people or other buildings. It also covers emotional injury and financial damage claims tied to the spread. A practical, camp-specific coverage that gets overlooked."},
+      { q: "A Christian university runs a graduate counseling program where students complete practicum hours. The School Counseling and Collegiate Student Counselor Liability Coverage is in place. Which counseling activity does it cover?", opts: ["All counseling done by anyone affiliated with the university, anywhere", "Only counseling activities that are supervised by the university itself, typically in on-campus clinics or university-supervised placements", "Counseling done by alumni after graduation", "Personal counseling the students do informally with friends and family"], correct: 1, explain: "School Counseling and Collegiate Student Counselor Liability is designed for colleges and universities whose programs involve student counseling in a clinical or practicum setting — but it ONLY applies to counseling supervised by the university itself. If students are doing practicum work at outside sites not supervised by the university (off-campus internships, independent clinic affiliations, hospital placements), those students may need their own professional liability coverage through the placement site or a separate student PL policy. Always ask: who is actually supervising the counseling activity?"},
+      { q: "A ministry sends a short-term mission team to Honduras for 10 days. They already have a MinistryFirst policy. What's the most efficient way to extend coverage internationally?", opts: ["Buy a new MinistryFirst policy for each country visited", "Add the Worldwide Liability and Medical Extension endorsement", "Rely on the team members' personal travel insurance", "Convert to a foreign commercial package policy permanently"], correct: 1, explain: "For short-term mission activities, the Worldwide Liability and Medical Extension endorsement extends most MinistryFirst liability and medical coverages to short-term mission travel anywhere in the world. It includes limited kidnap and extortion reimbursement, terrorism travel interruption, travel death reimbursement, and worldwide legal defense. For ongoing foreign operations (60+ days), a Foreign Commercial Package policy is the right tool."},
+      { q: "A ministry wants robust Kidnap & Ransom protection for its international missionaries. Where does Brotherhood Mutual's stand-alone K&R policy actually come from?", opts: ["It's underwritten directly by Brotherhood Mutual on a Brotherhood Mutual policy form", "It's brokered through the Brotherhood Works team and placed on another carrier's paper", "It's part of the standard MinistryFirst policy", "It's only available through state-run pools"], correct: 1, explain: "Important distinction: Brotherhood Mutual itself does NOT underwrite stand-alone K&R. The stand-alone K&R policy is brokered through the Brotherhood Works team and placed on another carrier's paper. The MinistryFirst policy's Worldwide Liability extension does include limited K&R reimbursement ($25K-$100K depending on the scenario, with no territory exclusions on the stand-alone), but for meaningful K&R protection — 24/7 crisis response, ransom reimbursement, recovery care — a dedicated K&R policy through Brotherhood Works is the right tool. Appropriate for ministries with international operations, travel, or high-profile leaders."},
+      { q: "A ministry distributes paper member directories and accidentally hands one to the wrong person, exposing personal information. Which coverage responds?", opts: ["Cyber Liability (electronic records)", "Privacy Violation Liability Coverage — for hard-copy/paper record privacy errors", "D&O", "No coverage exists for this"], correct: 1, explain: "Privacy Violation Liability Coverage (other than electronic records) responds when the ministry experiences a 'record privacy error' — loss, failure to protect, or improper use of personal information held as a hard copy or paper record. It does NOT apply to electronic records — those fall under cyber liability. Both gaps need to be assessed."},
+      { q: "A ministry operates a community radio station. They want coverage for defamation, copyright infringement, and intellectual property claims connected to their broadcasts. Which coverage is the best fit?", opts: ["Broad Scope Media Liability Coverage", "Extended Scope Media Liability Coverage", "Religious Freedom Protection", "Directors and Officers Liability"], correct: 1, explain: "Extended Scope Media Liability is built for ministries that operate a media enterprise — publishing, broadcasting, telecasting, or professional web design. Broad Scope Media Liability covers personal injury claims from a ministry's general activities (websites, social media, advertising), but Extended Scope is specifically scoped for owned/operated media enterprises like a radio station."}
+    ]
+  }
+];
+
+const STATE = { screen: "menu", quizId: null, qIdx: 0, selected: null, submitted: false, answers: [], scores: {} };
+const view = document.getElementById("lw-view");
+
+function loadScores() {
+  try {
+    const r = localStorage.getItem("lw-scores");
+    if (r) STATE.scores = JSON.parse(r);
+  } catch (e) { STATE.scores = {}; }
+}
+function saveScores() {
+  try { localStorage.setItem("lw-scores", JSON.stringify(STATE.scores)); } catch (e) {}
+}
+
+function renderMenu() {
+  const intro = `<p class="lw-intro">A 7-part introduction to insurance — built for new Lightwell trainees with no prior insurance background. Each quiz takes about 10 minutes. Take them in order, or jump to whatever's most relevant. Your scores are saved between sessions.</p>`;
+  const cards = QUIZZES.map(qz => {
+    const done = STATE.scores[qz.id];
+    const pct = done ? Math.round((done.score / done.total) * 100) : 0;
+    const pillCls = done ? "lw-pill done" : "lw-pill";
+    const pillTxt = done ? `${pct}% · ${done.score}/${done.total}` : "Not started";
+    const bar = done ? `<div class="lw-progress-bar"><div class="lw-progress-fill" style="width:${pct}%"></div></div>` : "";
+    return `<button class="lw-card" onclick="startQuiz(${qz.id})">
+      <div class="lw-card-head">
+        <div class="lw-card-icon"><i class="ti ${qz.icon}" aria-hidden="true"></i></div>
+        <span class="lw-card-num">Quiz ${qz.id}</span>
+      </div>
+      <div class="lw-card-title">${qz.title}</div>
+      <div class="lw-card-desc">${qz.desc}</div>
+      <div class="lw-card-foot"><span class="${pillCls}">${pillTxt}</span><span style="font-size:12px;color:var(--lw-text-soft)">${qz.questions.length} questions</span></div>
+      ${bar}
+    </button>`;
+  }).join("");
+  view.innerHTML = `${intro}<div class="lw-grid">${cards}</div>`;
+}
+
+function startQuiz(id) {
+  STATE.screen = "quiz"; STATE.quizId = id; STATE.qIdx = 0; STATE.selected = null; STATE.submitted = false; STATE.answers = [];
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const qz = QUIZZES.find(q => q.id === STATE.quizId);
+  const q = qz.questions[STATE.qIdx];
+  const pct = ((STATE.qIdx) / qz.questions.length) * 100;
+  const opts = q.opts.map((opt, i) => {
+    let cls = "lw-opt";
+    if (STATE.submitted) {
+      if (i === q.correct) cls += " correct";
+      else if (i === STATE.selected) cls += " incorrect";
+    } else if (i === STATE.selected) cls += " selected";
+    const letter = String.fromCharCode(65 + i);
+    return `<button class="${cls}" ${STATE.submitted ? "disabled" : ""} onclick="selectOpt(${i})"><span class="lw-opt-letter">${letter}</span><span>${opt}</span></button>`;
+  }).join("");
+  let feedback = "";
+  if (STATE.submitted) {
+    const correct = STATE.selected === q.correct;
+    feedback = `<div class="lw-feedback ${correct ? "correct" : "incorrect"}">
+      <div class="lw-feedback-head ${correct ? "correct" : "incorrect"}"><i class="ti ${correct ? "ti-check" : "ti-x"}" aria-hidden="true"></i>${correct ? "Correct" : "Not quite"}</div>
+      <div>${q.explain}</div>
+    </div>`;
+  }
+  const isLast = STATE.qIdx === qz.questions.length - 1;
+  let actionBtn;
+  if (!STATE.submitted) {
+    actionBtn = `<button class="lw-btn lw-btn-primary" ${STATE.selected === null ? "disabled" : ""} onclick="submitAnswer()">Submit answer</button>`;
+  } else {
+    actionBtn = `<button class="lw-btn lw-btn-primary" onclick="nextQuestion()">${isLast ? "See results" : "Next question"}<i class="ti ti-arrow-right" aria-hidden="true"></i></button>`;
+  }
+  view.innerHTML = `<div class="lw-quiz">
+    <div class="lw-quiz-head">
+      <div class="lw-quiz-title">${qz.title}</div>
+      <div class="lw-quiz-meta">Question ${STATE.qIdx + 1} of ${qz.questions.length}</div>
+    </div>
+    <div class="lw-bar"><div class="lw-bar-fill" style="width:${pct}%"></div></div>
+    <div class="lw-question">${q.q}</div>
+    <div class="lw-options">${opts}</div>
+    ${feedback}
+    <div class="lw-actions">
+      <button class="lw-btn lw-btn-ghost" onclick="backToMenu()"><i class="ti ti-arrow-left" aria-hidden="true"></i>Back to menu</button>
+      ${actionBtn}
+    </div>
+  </div>`;
+}
+
+function selectOpt(i) {
+  if (STATE.submitted) return;
+  STATE.selected = i;
+  renderQuiz();
+}
+
+function submitAnswer() {
+  if (STATE.selected === null) return;
+  STATE.submitted = true;
+  const qz = QUIZZES.find(q => q.id === STATE.quizId);
+  const q = qz.questions[STATE.qIdx];
+  STATE.answers.push({ qIdx: STATE.qIdx, selected: STATE.selected, correct: STATE.selected === q.correct });
+  renderQuiz();
+}
+
+async function nextQuestion() {
+  const qz = QUIZZES.find(q => q.id === STATE.quizId);
+  if (STATE.qIdx === qz.questions.length - 1) {
+    const score = STATE.answers.filter(a => a.correct).length;
+    STATE.scores[STATE.quizId] = { score, total: qz.questions.length, answers: STATE.answers };
+    await saveScores();
+    STATE.screen = "results";
+    renderResults();
+  } else {
+    STATE.qIdx++;
+    STATE.selected = null;
+    STATE.submitted = false;
+    renderQuiz();
+  }
+}
+
+function renderResults() {
+  const qz = QUIZZES.find(q => q.id === STATE.quizId);
+  const score = STATE.answers.filter(a => a.correct).length;
+  const total = qz.questions.length;
+  const pct = Math.round((score / total) * 100);
+  let msg, title;
+  if (pct >= 90) { title = "Excellent work."; msg = "You've got a strong grasp of this material. Move on to the next quiz when you're ready."; }
+  else if (pct >= 70) { title = "Solid showing."; msg = "Good foundation — review the items you missed below, then move on."; }
+  else if (pct >= 50) { title = "Getting there."; msg = "Worth revisiting the source material on the items you missed before moving on. The explanations below show the reasoning for each."; }
+  else { title = "Keep going."; msg = "This material takes a few passes to internalize. Revisit the Brotherhood Mutual Leader's Guide alongside this quiz, then take it again."; }
+  const missed = STATE.answers.map((a, i) => a.correct ? null : qz.questions[i].q).filter(Boolean);
+  const review = missed.length ? `<div class="lw-review">
+    <div class="lw-review-title">Questions to revisit</div>
+    <ul class="lw-review-list">${missed.map(m => `<li>${m}</li>`).join("")}</ul>
+  </div>` : "";
+  const circ = 2 * Math.PI * 50;
+  const dash = (pct / 100) * circ;
+  view.innerHTML = `<div class="lw-quiz">
+    <div class="lw-results">
+      <div class="lw-score-ring">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="var(--lw-primary-soft)" stroke-width="10"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="var(--lw-primary)" stroke-width="10" stroke-dasharray="${dash} ${circ}" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        </svg>
+        <div class="lw-score-num">
+          <div class="lw-score-pct">${pct}%</div>
+          <div class="lw-score-lbl">${score} of ${total}</div>
+        </div>
+      </div>
+      <div class="lw-results-title">${title}</div>
+      <div class="lw-results-sub">${msg}</div>
+      ${review}
+      <div class="lw-actions" style="justify-content:center">
+        <button class="lw-btn lw-btn-ghost" onclick="startQuiz(${qz.id})"><i class="ti ti-refresh" aria-hidden="true"></i>Retake quiz</button>
+        <button class="lw-btn lw-btn-primary" onclick="backToMenu()">Back to menu<i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function backToMenu() {
+  STATE.screen = "menu"; STATE.quizId = null;
+  renderMenu();
+}
+
+(async () => {
+  await loadScores();
+  renderMenu();
+})();
+</script>
